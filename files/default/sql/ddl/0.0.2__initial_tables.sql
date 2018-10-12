@@ -974,6 +974,46 @@ CREATE TABLE IF NOT EXISTS `cluster_cert` (
 -- End Dela tables
 --
 
+--
+-- Feature Store tables
+--
+CREATE TABLE IF NOT EXISTS `feature_store` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `hdfs_store_path` VARCHAR(255) NOT NULL,
+  `project_id` INT(11) NOT NULL,
+  `hdfs_user_id` int(11) NOT NULL,
+  `created` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `creator` VARCHAR(150) NOT NULL,
+  `feature_store_name` VARCHAR(255) NOT NULL,
+  `hdfs_user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `hdfs_user_idx` (`hdfs_user_id`),
+  CONSTRAINT Feature_Store_Constraint UNIQUE(project_id, feature_store_name),
+  FOREIGN KEY (`project_id`) REFERENCES `project` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  FOREIGN KEY (`hdfs_user_id`) REFERENCES `hops`.`hdfs_users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  FOREIGN KEY (`creator`) REFERENCES `users` (`email`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  ) ENGINE=ndbcluster DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
+
+CREATE TABLE IF NOT EXISTS `feature_group` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `feature_store_id` INT(11) NOT NULL,
+  `hdfs_store_path` VARCHAR(255) NOT NULL,
+  `hdfs_code_path` VARCHAR(255) NOT NULL,
+  `created` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `creator` VARCHAR(150) NOT NULL,
+  `feature_group_name` VARCHAR(255) NOT NULL,
+  `last_computed` TIMESTAMP NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT Feature_Store_Constraint UNIQUE(feature_store_id, feature_group_name),
+  FOREIGN KEY (`feature_store_id`) REFERENCES `feature_store` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  FOREIGN KEY (`creator`) REFERENCES `users` (`email`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  ) ENGINE=ndbcluster DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
+
+
+--
+-- End Feature Store tables
+--
+
 -- VIEWS --------------
 -- ---------------------
 
