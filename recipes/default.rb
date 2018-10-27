@@ -582,7 +582,7 @@ glassfish_asadmin "set-log-levels org.glassfish.grizzly.http.server.util.Request
    secure false
 end
 
-# Set correct thread-priority for the executor services - required during updates 
+# Set correct thread-priority for the executor services - required during updates
 glassfish_asadmin "set resources.managed-executor-service.concurrent\/hopsExecutorService.thread-priority=10" do
    domain_name domain_name
    password_file "#{domains_dir}/#{domain_name}_admin_passwd"
