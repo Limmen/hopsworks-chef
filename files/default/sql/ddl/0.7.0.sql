@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS `feature_store` (
   `project_id` INT(11)    NOT NULL,
   `created`    TIMESTAMP           DEFAULT CURRENT_TIMESTAMP,
   `hive_db_id` BIGINT(20) NOT NULL,
+  `shared`     TINYINT(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   FOREIGN KEY (`project_id`) REFERENCES `project` (`id`)
     ON DELETE CASCADE
