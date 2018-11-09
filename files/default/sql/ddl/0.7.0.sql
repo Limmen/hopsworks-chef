@@ -6,7 +6,6 @@ CREATE TABLE IF NOT EXISTS `feature_store` (
   `project_id` INT(11)    NOT NULL,
   `created`    TIMESTAMP           DEFAULT CURRENT_TIMESTAMP,
   `hive_db_id` BIGINT(20) NOT NULL,
-  `shared`     TINYINT(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   FOREIGN KEY (`project_id`) REFERENCES `project` (`id`)
     ON DELETE CASCADE
@@ -49,3 +48,10 @@ CREATE TABLE IF NOT EXISTS `feature_group` (
   ENGINE = ndbcluster
   DEFAULT CHARSET = latin1
   COLLATE = latin1_general_cs;
+
+ALTER TABLE `hopsworks`.`dataset`
+  ADD COLUMN `feature_store_id` INT(11) DEFAULT NULL;
+ALTER TABLE `hopsworks`.`dataset`
+  ADD FOREIGN KEY `featurestore_fk` (`feature_store_id`) REFERENCES `feature_store` (`id`)
+  ON DELETE SET NULL
+  ON UPDATE NO ACTION;
