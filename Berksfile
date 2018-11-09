@@ -21,7 +21,7 @@ cookbook 'elastic', github: "logicalclocks/elasticsearch-chef", branch: "master"
 cookbook 'hopslog', github: "logicalclocks/hopslog-chef", branch: "master"
 cookbook 'hopsmonitor', github: "logicalclocks/hopsmonitor-chef", branch: "master"
 cookbook 'glassfish', github: "logicalclocks/chef-glassfish", branch: "master"
-cookbook 'hive2', github: "Limmen/hive-chef", branch: "HOPSWORKS-745"
+cookbook 'hive2', github: "Limmen/hive-chef", branch: "HOPSWORKS-719"
 
 cookbook 'ulimit', github: "logicalclocks/chef-ulimit", branch: "master"
 cookbook 'java'
