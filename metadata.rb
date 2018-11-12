@@ -267,6 +267,10 @@ attribute "hopsworks/hive_default_quota_mbs",
           :description => "Default amount in MB of available storage per project",
           :type => 'string'
 
+attribute "hopsworks/featurestore_default_quota_mbs",
+          :description => "Default amount in MB of available storage for the featurestore service per project",
+          :type => 'string'
+
 attribute "hopsworks/max_num_proj_per_user",
           :description => "Maximum number of projects that can be created by each user",
           :type => 'string'
