@@ -19,15 +19,16 @@ CREATE TABLE IF NOT EXISTS `feature_store` (
   COLLATE = latin1_general_cs;
 
 CREATE TABLE IF NOT EXISTS `feature_group` (
-  `id`               INT(11)        NOT NULL AUTO_INCREMENT,
-  `feature_store_id` INT(11)        NOT NULL,
-  `hdfs_user_id`     INT(11)        NOT NULL,
-  `created`          TIMESTAMP               DEFAULT CURRENT_TIMESTAMP,
-  `creator`          INT(11)        NOT NULL,
-  `job_id`           INT(11)        NULL,
-  `hive_tbl_id`      BIGINT(20)     NOT NULL,
-  `input_dataset`    VARCHAR(10000) NOT NULL,
-  `version`          INT(11)        NOT NULL,
+  `id`                      INT(11)        NOT NULL AUTO_INCREMENT,
+  `feature_store_id`        INT(11)        NOT NULL,
+  `hdfs_user_id`            INT(11)        NOT NULL,
+  `created`                 TIMESTAMP               DEFAULT CURRENT_TIMESTAMP,
+  `creator`                 INT(11)        NOT NULL,
+  `job_id`                  INT(11)        NULL,
+  `hive_tbl_id`             BIGINT(20)     NOT NULL,
+  `input_dataset`           VARCHAR(10000) NOT NULL,
+  `feature_corr_matrix_img` TEXT           NOT NULL,
+  `version`                 INT(11)        NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`feature_store_id`) REFERENCES `feature_store` (`id`)
     ON DELETE CASCADE
@@ -58,6 +59,8 @@ CREATE TABLE IF NOT EXISTS `training_dataset` (
   `job_id`                  INT(11)        NULL,
   `input_dataset`           VARCHAR(10000) NOT NULL,
   `version`                 INT(11)        NOT NULL,
+  `schema`                  VARCHAR(10000) NOT NULL,
+  `stats`                   VARCHAR(10000) NOT NULL,
   `data_format`             VARCHAR(128)   NOT NULL,
   `training_dataset_folder` INT(11)        NOT NULL,
   `inode_pid`               INT(11)        NOT NULL,
