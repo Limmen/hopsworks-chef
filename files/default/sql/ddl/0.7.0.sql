@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS `feature_group` (
   `feature_corr_matrix_img` TEXT                DEFAULT NULL,
   `features_histogram_img`  TEXT                DEFAULT NULL,
   `descriptive_stats`       TEXT                DEFAULT NULL,
+  `cluster_analysis`        MEDIUMTEXT          DEFAULT NULL,
   `version`                 INT(11)    NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`feature_store_id`) REFERENCES `feature_store` (`id`)
@@ -52,6 +53,21 @@ CREATE TABLE IF NOT EXISTS `feature_group` (
   DEFAULT CHARSET = latin1
   COLLATE = latin1_general_cs;
 
+CREATE TABLE IF NOT EXISTS `feature_statistic` (
+  `id`               INT(11) NOT NULL AUTO_INCREMENT,
+  `feature_group_id` INT(11) NOT NULL,
+  `name`             VARCHAR(10000)   DEFAULT NULL,
+  `statistic_type`   INT(11) NOT NULL DEFAULT '0',
+  `value`            TEXT             DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`feature_group_id`) REFERENCES `feature_group` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION
+)
+  ENGINE = ndbcluster
+  DEFAULT CHARSET = latin1
+  COLLATE = latin1_general_cs;
+
 CREATE TABLE IF NOT EXISTS `training_dataset` (
   `id`                      INT(11)      NOT NULL AUTO_INCREMENT,
   `feature_store_id`        INT(11)      NOT NULL,
@@ -67,6 +83,7 @@ CREATE TABLE IF NOT EXISTS `training_dataset` (
   `training_dataset_folder` INT(11)      NOT NULL,
   `feature_corr_matrix_img` TEXT                  DEFAULT NULL,
   `features_histogram_img`  TEXT                  DEFAULT NULL,
+  `cluster_analysis`        MEDIUMTEXT                  DEFAULT NULL,
   `inode_pid`               INT(11)      NOT NULL,
   `inode_name`              VARCHAR(255) NOT NULL,
   `partition_id`            INT(11)      NOT NULL,
