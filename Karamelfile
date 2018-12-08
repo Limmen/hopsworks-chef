@@ -7,7 +7,7 @@ dependencies:
       - conda::default
     global:
       - hops::ndb
-      - hive2::metastore_db
+      - hive2::db
   - recipe: hopsworks::dev
     global:
       - hopsworks::default

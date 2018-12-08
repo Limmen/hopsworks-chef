@@ -24,3 +24,10 @@ ALTER TABLE `hopsworks`.`ops_log` MODIFY COLUMN `inode_id` INT(11);
 
 ALTER TABLE `hopsworks`.`meta_log` MODIFY COLUMN `meta_pk2` INT(11);
 ALTER TABLE `hopsworks`.`meta_log` MODIFY COLUMN `meta_pk3` INT(11);
+
+ALTER TABLE `hopsworks`.`dataset` DROP FOREIGN KEY `featurestore_fk`;
+ALTER TABLE `hopsworks`.`dataset` DROP COLUMN `feature_store_id`;
+
+DROP TABLE IF EXISTS `feature_group`;
+DROP TABLE IF EXISTS `feature_store`;
+DROP TABLE IF EXISTS `training_dataset`;

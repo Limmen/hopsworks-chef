@@ -249,6 +249,10 @@ if node['hopsworks']['nonconda_hosts'].empty? == false
   nonconda_hosts_list = node['hopsworks']['nonconda_hosts'].split(/\s*,\s*/)
 end
 
+# Hive metastore should be created before the hopsworks tables are created
+# Hopsworks 0.7.0 introduce tables with foreign keys to Hive metastore
+include_recipe "hive2::db"
+
 versions = node['hopsworks']['versions'].split(/\s*,\s*/)
 target_version = node['hopsworks']['version'].sub("-SNAPSHOT", "")
 versions.push(target_version)
@@ -312,6 +316,7 @@ for version in versions do
          :yarn_default_quota => node['hopsworks']['yarn_default_quota_mins'].to_i * 60,
          :hdfs_default_quota => node['hopsworks']['hdfs_default_quota_mbs'].to_i,
          :hive_default_quota => node['hopsworks']['hive_default_quota_mbs'].to_i,
+         :featurestore_default_quota => node['hopsworks']['featurestore_default_quota_mbs'].to_i,
          :zk_ip => zk_ip,
          :java_home => node['java']['java_home'],
          :drelephant_ip => drelephant_ip,
