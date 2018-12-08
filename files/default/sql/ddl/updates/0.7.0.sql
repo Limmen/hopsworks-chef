@@ -112,9 +112,9 @@ CREATE TABLE IF NOT EXISTS `training_dataset` (
   `feature_corr_matrix_img` TEXT                  DEFAULT NULL,
   `features_histogram_img`  TEXT                  DEFAULT NULL,
   `cluster_analysis`        MEDIUMTEXT                  DEFAULT NULL,
-  `inode_pid`               INT(11)      NOT NULL,
+  `inode_pid` BIGINT(20) NOT NULL,
   `inode_name`              VARCHAR(255) NOT NULL,
-  `partition_id`            INT(11)      NOT NULL,
+  `partition_id`            BIGINT(20)      NOT NULL,
   `description`             VARCHAR(2000)         DEFAULT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`feature_store_id`) REFERENCES `feature_store` (`id`)
