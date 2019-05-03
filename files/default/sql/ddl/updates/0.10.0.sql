@@ -84,3 +84,8 @@ CREATE TABLE IF NOT EXISTS `oauth_login_state` (
 ) ENGINE=ndbcluster DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
 
 ALTER TABLE `tensorboard` ADD COLUMN `secret` VARCHAR(255);
+
+ALTER TABLE `hopsworks`.`tf_serving` RENAME TO `hopsworks`.`serving`;
+ALTER TABLE `hopsworks`.`serving` ADD COLUMN `serving_type` INT(11) NOT NULL DEFAULT '0';
+ALTER TABLE `hopsworks`.`serving` CHANGE `model_name` `name` varchar(255) COLLATE latin1_general_cs NOT NULL;
+ALTER TABLE `hopsworks`.`serving` CHANGE `model_path` `artifact_path` varchar(255) COLLATE latin1_general_cs NOT NULL;

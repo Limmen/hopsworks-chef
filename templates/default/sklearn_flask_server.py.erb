@@ -1,0 +1,105 @@
+"""
+A Flask Server for Serving SKLearn Models. It takes as argument a user-defined python script that implements the sklearn serving functionality.
+"""
+from __future__ import print_function
+from flask import Flask, request
+import flask
+import argparse
+import importlib
+import sys
+
+INPUTS = "inputs"
+global prediction_service
+
+def parse_args():
+    """Parses the commandline arguments with argparse"""
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-p", "--port", help="port that the flask server will listen to",
+                        default=5000)
+    parser.add_argument("-f", "--file", help="ip that the flask server will listen to",
+                        default="predict.py")
+    parser.add_argument("-i", "--ip", help="ip that the flask server will listen to",
+                        default="0.0.0.0")
+    parser.add_argument("-l", "--logfile", help="logfile path", default="flask_server.log")
+    args = parser.parse_args()
+    return args
+
+def flask_app():
+    """ Starts a simple Flask app for serving a scikit-learn model """
+    app = Flask(__name__)
+
+    @app.route('/predict', methods=['POST'])
+    def predict():
+        """
+        Listens for user prediction requests. Invokes a user-defined prediction service to serve the request.
+
+        Returns:
+             the prediction result (json)
+        """
+        json_request = request.get_json()
+        print("Received prediction request: {}".format(json_request), file=sys.stderr)
+        inputs = json_request[INPUTS]
+        prediction = prediction_service.predict(inputs)
+        print("Returning prediction: {}".format(prediction), file=sys.stderr)
+        return flask.jsonify({
+             "prediction": prediction,
+        })
+
+    @app.route('/classify', methods=['POST'])
+    def classify():
+        """
+        Listens for user prediction requests. Invokes a user-defined prediction service to serve the request.
+
+        Returns:
+             the prediction result (json)
+        """
+        json_request = request.get_json()
+        print("Received prediction request: {}".format(json_request), file=sys.stderr)
+        inputs = json_request[INPUTS]
+        prediction = prediction_service.classify(inputs)
+        print("Returning prediction: {}".format(prediction), file=sys.stderr)
+        return flask.jsonify({
+             "prediction": prediction,
+        })
+
+
+    @app.route('/regress', methods=['POST'])
+    def regress():
+        """
+        Listens for user prediction requests. Invokes a user-defined prediction service to serve the request.
+
+        Returns:
+             the prediction result (json)
+        """
+        json_request = request.get_json()
+        print("Received prediction request: {}".format(json_request), file=sys.stderr)
+        inputs = json_request[INPUTS]
+        prediction = prediction_service.regress(inputs)
+        print("Returning prediction: {}".format(prediction), file=sys.stderr)
+        return flask.jsonify({
+             "prediction": prediction,
+        })
+
+    return app
+
+def _parse_module_name(filename):
+    """
+    Parse filename to module name for dynamic import
+
+    Args:
+         :filename: the name of the python file
+
+    Returns:
+        the name of the python module
+    """
+    return filename.replace(".py", "")
+
+if __name__ == '__main__':
+    args = parse_args()
+    module_name = _parse_module_name(args.file)
+    prediction_service = importlib.import_module(module_name).Predict()
+    import logging
+    logging.basicConfig(filename=args.logfile,level=logging.DEBUG)
+    print("Starting Flask App for SkLearn Serving listening on port: {}".format(args.port))
+    app = flask_app()
+    app.run(debug=False, host=args.ip, port=args.port)

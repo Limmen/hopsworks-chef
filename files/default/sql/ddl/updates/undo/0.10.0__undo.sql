@@ -44,3 +44,7 @@ ALTER TABLE `remote_user` RENAME TO `ldap_user`;
 
 ALTER TABLE `tensorboard` DROP COLUMN `secret`;
 
+ALTER TABLE `hopsworks`.`serving` RENAME TO `hopsworks`.`tf_serving`;
+ALTER TABLE `hopsworks`.`serving` DROP COLUMN `serving_type`;
+ALTER TABLE `hopsworks`.`serving` CHANGE `name` `model_name` varchar(255) COLLATE latin1_general_cs NOT NULL;
+ALTER TABLE `hopsworks`.`serving` CHANGE `artifact_path` `model_path` varchar(255) COLLATE latin1_general_cs NOT NULL;

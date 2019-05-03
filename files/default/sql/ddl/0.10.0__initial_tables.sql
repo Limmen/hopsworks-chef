@@ -1449,20 +1449,20 @@ CREATE TABLE `tf_lib_mapping` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `tf_serving`
+-- Table structure for table `serving`
 --
 
-DROP TABLE IF EXISTS `tf_serving`;
+DROP TABLE IF EXISTS `serving`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tf_serving` (
+CREATE TABLE `serving` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `local_port` int(11) DEFAULT NULL,
   `local_pid` int(11) DEFAULT NULL,
   `project_id` int(11) NOT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `model_name` varchar(255) COLLATE latin1_general_cs NOT NULL,
-  `model_path` varchar(255) COLLATE latin1_general_cs NOT NULL,
+  `name` varchar(255) COLLATE latin1_general_cs NOT NULL,
+  `artifact_path` varchar(255) COLLATE latin1_general_cs NOT NULL,
   `version` int(11) NOT NULL,
   `local_dir` varchar(255) COLLATE latin1_general_cs DEFAULT NULL,
   `enable_batching` tinyint(1) DEFAULT '0',
@@ -1472,11 +1472,12 @@ CREATE TABLE `tf_serving` (
   `lock_ip` varchar(15) COLLATE latin1_general_cs DEFAULT NULL,
   `lock_timestamp` bigint(20) DEFAULT NULL,
   `kafka_topic_id` int(11) DEFAULT NULL,
+  `serving_type` INT(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `Serving_Constraint` (`project_id`,`model_name`),
+  UNIQUE KEY `Serving_Constraint` (`project_id`,`name`),
   KEY `user_fk` (`creator`),
   KEY `kafka_fk` (`kafka_topic_id`),
-  KEY `model_name_k` (`model_name`),
+  KEY `name_k` (`name`),
   CONSTRAINT `user_fk` FOREIGN KEY (`creator`) REFERENCES `users` (`uid`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `kafka_fk` FOREIGN KEY (`kafka_topic_id`) REFERENCES `project_topics` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   CONSTRAINT `FK_284_315` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
@@ -1880,4 +1881,3 @@ CREATE TABLE IF NOT EXISTS `oauth_login_state` (
     ON DELETE CASCADE 
     ON UPDATE NO ACTION
 ) ENGINE=ndbcluster DEFAULT CHARSET=latin1 COLLATE=latin1_general_cs;
-
